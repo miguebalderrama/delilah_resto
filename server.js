@@ -8,8 +8,7 @@ const sequelize = require('./ConexionBD.js');
 const server = express();
 server.use(express.json()); //body parser
 server.use(cors());
-server.listen(3000, () => {
-    console.log('Servidor en ejecucion');
+server.listen(3000, () => { console.log('Servidor en puerto 3000 en ejecucion');
 });
 //////////////// Endpoint Sign in//////////////////////////////// 
 server.post('/registro', async (req, res) => {

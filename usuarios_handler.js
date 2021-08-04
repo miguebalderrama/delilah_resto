@@ -23,7 +23,7 @@ async function autenticarUsuario(username, password) {
                        },
                        type: sequelize.QueryTypes.SELECT
   });
-    return encontrado;
+       return encontrado[0];
 }
 
 

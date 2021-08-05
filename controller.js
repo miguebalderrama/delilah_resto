@@ -4,14 +4,18 @@ const usuariosHandler = require("./usuarios_handler.js");
 const usuariosMapper = require("./usuariosMapper.js");
 const middlewares = require("./middlewares.js");
 const sequelize = require("./ConexionBD.js");
+const { restart } = require("nodemon");
+//const expressJwt = require('express-jwt')
 
 const server = express();
+//server.use(jwt({ secret: 'shhhhhhared-secret'}).unless({path: ['/token']}));
+
 server.use(express.json()); //body parser
 server.use(cors());
 server.listen(3000, () => {
   console.log("Servidor en puerto 3000 en ejecucion");
 });
-//////////////// Endpoint Sign in////////////////////////////////
+//////////////// Rutas de usuarios////////////////////////////////
 server.post("/registro", async (req, res) => {
   console.log(req.body);
   const user = ({
@@ -39,6 +43,11 @@ server.post("/login", async (req, res) => {
   else{
     res.status(403).send({ message: "Usuario y/o contrasenia invalidos" });
   }
+  
+});
+server.get("/usuarios", middlewares.isAdmin ,async (req, res) => {
+  let usersArray= await usuariosHandler.getUsuarios();
+  res.status(200).send(usersArray);
   
 });
 // ========================= VerProductos ============================
@@ -106,3 +115,4 @@ server.use((err, req, res, next) => {
   }
   next();
 });
+//////////////Orders /////////////////////////////////////

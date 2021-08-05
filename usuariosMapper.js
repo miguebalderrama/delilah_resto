@@ -17,4 +17,4 @@ async function validarUsuario(usuario, contrasenia) {
    
 }
 
-module.exports = { validarUsuario }
+module.exports = { validarUsuario, seed, jwt}

@@ -25,7 +25,12 @@ async function autenticarUsuario(username, password) {
   });
        return encontrado[0];
 }
+async function getUsuarios(){
+    let usersArray= await sequelize.query('SELECT * FROM users', {
+        type: sequelize.QueryTypes.SELECT
+});
+return usersArray;
+}
 
 
-
-module.exports = { registrarUsuario, autenticarUsuario }
+module.exports = { registrarUsuario, autenticarUsuario, getUsuarios }

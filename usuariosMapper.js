@@ -18,16 +18,13 @@ async function validarUsuario(usuario, contrasenia) {
 }
 function obtenerUserId(req,res) {
   let token = req.headers.user_id;
-  console.log(token);
   let decoded;
   try {
-    decoded = jwt.verify(token, seed);
-    console.log(decoded);
+    decoded = jwt.verify(token, seed);    
   } catch (err) {
     res.status(401).send({ error: "Token invalido", TipoDeError: `${err}` });
   }
-  if (decoded.usuario) {    
-    console.log(decoded.usuario);
+  if (decoded.usuario) {  
     return decoded.usuario;
   } else {
     res.status(401).send({ error: "Usuario no autorizado" });

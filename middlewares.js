@@ -6,10 +6,11 @@ function isAdmin(req, res, next) {
   let decoded;
   try {
     decoded = usuariosMapper.jwt.verify(token, usuariosMapper.seed);
+    console.log(decoded);
   } catch (err) {
     res.status(401).send({ error: "Token invalido", TipoDeError: `${err}` });
   }
-  if (decoded.rol === 1) {
+  if (decoded.rol === 1) {    
     next();
   } else {
     res.status(401).send({ error: "Usuario no autorizado" });

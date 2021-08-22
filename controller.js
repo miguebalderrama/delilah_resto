@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const usuariosHandler = require("./usuarios_handler.js");
+const ordersHandler = require("./orders_handler.js");
 const usuariosMapper = require("./usuariosMapper.js");
 const middlewares = require("./middlewares.js");
 const sequelize = require("./ConexionBD.js");
@@ -18,15 +19,7 @@ server.listen(3000, () => {
 //////////////// Rutas de usuarios////////////////////////////////
 server.post("/registro", async (req, res) => {
   console.log(req.body);
-  const user = ({
-    username,
-    password,
-    nombre,
-    apellido,
-    email,
-    telefono,
-    direccion,
-  } = req.body);
+  const user = ({username, password, nombre, apellido, email, telefono, direccion,} = req.body);
   console.log(
     `${username} - ${nombre} - ${apellido} - ${email} - ${telefono} - ${direccion}`
   );
@@ -116,3 +109,20 @@ server.use((err, req, res, next) => {
   next();
 });
 //////////////Orders /////////////////////////////////////
+
+server.post("/orders", middlewares.isAdmin ,async (req, res) => {
+  console.log(req.body);
+  let userId= usuariosMapper.obtenerUserId(req,res);
+  const order = ({username, products, payment_method,} = req.body);
+  console.log(`${username} - ${products}- ${payment_method}`  );
+  console.log(userId);
+ // let ordersArray= await ordersHandler.postOrder();
+ res.status(200).send(order);
+  
+});
+
+//server.get("/orders", middlewares.isAdmin ,async (req, res) => {
+ // let ordersArray= await ordersHandler.getOrders();
+ // res.status(200).send(ordersArray);
+  
+//});

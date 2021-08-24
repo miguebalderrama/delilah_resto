@@ -1,10 +1,10 @@
 const express = require("express");
 const cors = require("cors");
-const usuariosHandler = require("./controllers/usuarios_handler.js");
-const ordersHandler = require("./controllers/orders_handler.js");
-const usuariosMapper = require("./usuariosMapper.js");
-const middlewares = require("./middlewares.js");
-const sequelize = require("./ConexionBD.js");
+const usuariosHandler = require("./controllers/usuarios_handler");
+const ordersHandler = require("./controllers/orders_handler");
+const usuariosMapper = require("./controllers/usuariosMapper");
+const middlewares = require("middlewares.js");
+const sequelize = require("ConexionBD.js");
 const { restart } = require("nodemon");
 
 

@@ -1,4 +1,4 @@
-const sequelize = require('../ConexionBD.js');
+const sequelize = require('../conexionBD.js');
 
 async function createOrder(){////aca hay que hacer esta funcion
     let ordersArray= await sequelize.query('SELECT * FROM users', {

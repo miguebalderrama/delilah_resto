@@ -1,4 +1,4 @@
-const usuariosHandler = require("./controllers/usuarios_handler.js");
+const usuariosHandler = require("./usuarios_handler.js");
 const jwt = require('jsonwebtoken');
 const seed = '51mulad0res';
 

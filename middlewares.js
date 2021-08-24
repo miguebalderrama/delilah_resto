@@ -1,5 +1,5 @@
 const usuariosHandler = require("./controllers/usuarios_handler.js");
-const usuariosMapper = require("./usuariosMapper.js");
+const usuariosMapper = require("./controllers/usuariosMapper.js");
 
 function isAdmin(req, res, next) {
   let token = req.headers.user_id;

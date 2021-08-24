@@ -1,49 +1,64 @@
 const express = require("express");
 const cors = require("cors");
-const usuariosHandler = require("./usuarios_handler.js");
-const ordersHandler = require("./orders_handler.js");
+const usuariosHandler = require("./controllers/usuarios_handler.js");
+const ordersHandler = require("./controllers/orders_handler.js");
 const usuariosMapper = require("./usuariosMapper.js");
 const middlewares = require("./middlewares.js");
 const sequelize = require("./ConexionBD.js");
 const { restart } = require("nodemon");
-//const expressJwt = require('express-jwt')
+
 
 const server = express();
-//server.use(jwt({ secret: 'shhhhhhared-secret'}).unless({path: ['/token']}));
+
 
 server.use(express.json()); //body parser
 server.use(cors());
 server.listen(3000, () => {
   console.log("Servidor en puerto 3000 en ejecucion");
 });
-//////////////// Rutas de usuarios////////////////////////////////
+
+//////////////// Users Routes////////////////////////////////
 server.post("/registro", async (req, res) => {
   console.log(req.body);
-  const user = ({username, password, nombre, apellido, email, telefono, direccion,} = req.body);
-  console.log(
-    `${username} - ${nombre} - ${apellido} - ${email} - ${telefono} - ${direccion}`
-  );
+  const user = ({
+    username,
+    password,
+    nombre,
+    apellido,
+    email,
+    telefono,
+    direccion,
+  } = req.body);
+  console.log(`${username} - ${nombre} - ${apellido} - ${email} - ${telefono} - ${direccion}`);
   usuariosHandler.registrarUsuario(user);
   res.status(201).send({ message: "Usuario creado satisfactoriamente" });
 });
+
+server.get("/usuarios", middlewares.isAdmin, async (req, res) => {
+  let usersArray = await usuariosHandler.getUsuarios();
+  res.status(200).send(usersArray);
+});
+
+server.delete("/user", middlewares.isAdmin, async (req, res) => {
+  //let usersArray = await usuariosHandler.getUsuarios();
+  res.status(200).send({ message: "Usuario eliminado satisfactoriamente" });
+});
+
 /////////////// Endpoint Login///////////////////////////////////////////////
 server.post("/login", async (req, res) => {
-  let token= await usuariosMapper.validarUsuario(req.body.username, req.body.password);
+  let token = await usuariosMapper.validarUsuario(
+    req.body.username,
+    req.body.password
+  );
   //console.log(token);
-  if(token){
-    res.status(200).send({ message: "Bienvenido usuario",token: token});
-  }
-  else{
+  if (token) {
+    res.status(200).send({ message: "Bienvenido usuario", token: token });
+  } else {
     res.status(403).send({ message: "Usuario y/o contrasenia invalidos" });
   }
-  
 });
-server.get("/usuarios", middlewares.isAdmin ,async (req, res) => {
-  let usersArray= await usuariosHandler.getUsuarios();
-  res.status(200).send(usersArray);
-  
-});
-// ========================= VerProductos ============================
+
+//=================== Products routes =========================
 server.get("/products", (req, res) => {
   sequelize
     .query("SELECT * FROM products", { type: sequelize.QueryTypes.SELECT })
@@ -110,19 +125,18 @@ server.use((err, req, res, next) => {
 });
 //////////////Orders /////////////////////////////////////
 
-server.post("/orders", middlewares.isAdmin ,async (req, res) => {
+server.post("/orders", middlewares.isAdmin, async (req, res) => {
   console.log(req.body);
-  let userId= usuariosMapper.obtenerUserId(req,res);
-  const order = ({username, products, payment_method,} = req.body);
-  console.log(`${username} - ${products}- ${payment_method}`  );
+  let userId = usuariosMapper.obtenerUserId(req, res);
+  const order = ({ username, products, payment_method } = req.body);
+  console.log(`${username} - ${products}- ${payment_method}`);
   console.log(userId);
- // let ordersArray= await ordersHandler.postOrder();
- res.status(200).send(order);
-  
+  // let ordersArray= await ordersHandler.postOrder();
+  res.status(200).send(order);
 });
 
 //server.get("/orders", middlewares.isAdmin ,async (req, res) => {
- // let ordersArray= await ordersHandler.getOrders();
- // res.status(200).send(ordersArray);
-  
+// let ordersArray= await ordersHandler.getOrders();
+// res.status(200).send(ordersArray);
+
 //});

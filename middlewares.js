@@ -1,4 +1,4 @@
-const usuariosHandler = require("./usuarios_handler.js");
+const usuariosHandler = require("./controllers/usuarios_handler.js");
 const usuariosMapper = require("./usuariosMapper.js");
 
 function isAdmin(req, res, next) {

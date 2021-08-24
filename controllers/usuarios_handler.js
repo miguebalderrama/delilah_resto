@@ -1,4 +1,4 @@
-const sequelize = require('./ConexionBD.js');
+const sequelize = require('../ConexionBD.js');
 
 async function registrarUsuario(usuario) {
     await sequelize.query("INSERT INTO users VALUES (NULL, :username, :password, :firstname, :lastname, :email, :phone, :adress, 0 )", {

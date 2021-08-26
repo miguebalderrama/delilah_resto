@@ -56,9 +56,10 @@ server.post("/login", async (req, res) => {
 });
 
 //=================== Products routes =========================================
-server.get("/products", (req, res) => {
+server.get("/products", async (req, res) => {
   let productsArray = await productsHandler.getProducts();
   res.status(200).send(productsArray);
+  
 });
 // ======================== CrearProductos ===========================
 server.post("/products", middlewares.isAdmin, (req, res) => {

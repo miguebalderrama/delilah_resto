@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const usuariosHandler = require('./controllers/usuarios_handler.js');
 const ordersHandler = require("./controllers/orders_handler.js");
+const productsHandler = require("./controllers/products_handler.js");
 const usuariosMapper = require("./controllers/usuariosMapper.js");
 const middlewares = require("./middlewares.js");
 const sequelize = require("./conexionBD.js");
@@ -44,13 +45,9 @@ server.delete("/usuario", middlewares.isAdmin, async (req, res) => {
   res.status(200).send({ message: "Usuario eliminado satisfactoriamente" });
 });
 
-/////////////// Endpoint Login///////////////////////////////////////////////
+//=================== Endpoint Login===========================================
 server.post("/login", async (req, res) => {
-  let token = await usuariosMapper.validarUsuario(
-    req.body.username,
-    req.body.password
-  );
-  //console.log(token);
+  let token = await usuariosMapper.validarUsuario( req.body.username,req.body.password);
   if (token) {
     res.status(200).send({ message: "Bienvenido usuario", token: token });
   } else {
@@ -58,26 +55,10 @@ server.post("/login", async (req, res) => {
   }
 });
 
-//=================== Products routes =========================
+//=================== Products routes =========================================
 server.get("/products", (req, res) => {
-  sequelize
-    .query("SELECT * FROM products", { type: sequelize.QueryTypes.SELECT })
-    .then((products) => {
-      if (products.length === 0) {
-        console.log(`No hay productos en Delilah Restó`);
-        res.json({ text: `No hay productos en Delilah Restó`, products: [] });
-      } else {
-        console.log(
-          `Estos son los productos de Delilah Restó: ${JSON.stringify(
-            products
-          )}`
-        );
-        res.json({
-          text: "Estos son los productos de Delilah Restó",
-          products: products,
-        });
-      }
-    });
+  let productsArray = await productsHandler.getProducts();
+  res.status(200).send(productsArray);
 });
 // ======================== CrearProductos ===========================
 server.post("/products", middlewares.isAdmin, (req, res) => {

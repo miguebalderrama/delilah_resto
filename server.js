@@ -61,6 +61,12 @@ server.get("/products", async (req, res) => {
   res.status(200).send(productsArray);
   
 });
+server.delete("/product", middlewares.isAdmin, async (req, res) => {
+  const productoId = ({ productId } = req.body);
+  let respuesta = await productsHandler.deleteProduct(productoId.productId);
+  res.status(200).send(respuesta);
+  
+});
 // ======================== CrearProductos ===========================
 server.post("/products", middlewares.isAdmin, (req, res) => {
   const product = ({ nombre, price, photo } = req.body);

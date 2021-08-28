@@ -7,7 +7,19 @@ async function getProducts(){
 return productsArray;
 }
 
+async function deleteProduct(productId){
+    console.log(productId);
+    console.log("queiro borrar el producto tal");
+    let respuesta= await sequelize.query(`DELETE FROM products WHERE Product_id = :productId`, {
+        replacements: {            
+            productId: productId
+        },
+        type: sequelize.QueryTypes.SELECT
+});
+
+return respuesta;
+}
 
 
 
-module.export = {getProducts}
+module.exports = {getProducts, deleteProduct}

@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const usuariosHandler = require('./controllers/usuarios_handler.js');
+const usuariosHandler = require("./controllers/usuarios_handler.js");
 const ordersHandler = require("./controllers/orders_handler.js");
 const productsHandler = require("./controllers/products_handler.js");
 const usuariosMapper = require("./controllers/usuariosMapper.js");
@@ -8,9 +8,7 @@ const middlewares = require("./middlewares.js");
 const sequelize = require("./conexionBD.js");
 const { restart } = require("nodemon");
 
-
 const server = express();
-
 
 server.use(express.json()); //body parser
 server.use(cors());
@@ -30,7 +28,9 @@ server.post("/registro", async (req, res) => {
     telefono,
     direccion,
   } = req.body);
-  console.log(`${username} - ${nombre} - ${apellido} - ${email} - ${telefono} - ${direccion}`);
+  console.log(
+    `${username} - ${nombre} - ${apellido} - ${email} - ${telefono} - ${direccion}`
+  );
   usuariosHandler.registrarUsuario(user);
   res.status(201).send({ message: "Usuario creado satisfactoriamente" });
 });
@@ -47,7 +47,10 @@ server.delete("/usuario", middlewares.isAdmin, async (req, res) => {
 
 //=================== Endpoint Login===========================================
 server.post("/login", async (req, res) => {
-  let token = await usuariosMapper.validarUsuario( req.body.username,req.body.password);
+  let token = await usuariosMapper.validarUsuario(
+    req.body.username,
+    req.body.password
+  );
   if (token) {
     res.status(200).send({ message: "Bienvenido usuario", token: token });
   } else {
@@ -59,13 +62,15 @@ server.post("/login", async (req, res) => {
 server.get("/products", async (req, res) => {
   let productsArray = await productsHandler.getProducts();
   res.status(200).send(productsArray);
-  
 });
 server.delete("/product", middlewares.isAdmin, async (req, res) => {
   const productoId = ({ productId } = req.body);
   let respuesta = await productsHandler.deleteProduct(productoId.productId);
-  res.status(200).send(respuesta);
-  
+  if (respuesta[0].affectedRows) {
+    res.status(200).send("Elemento borrado satisfactoriamente");
+  } else {
+    res.status(200).send("No se encontro elemento para borrar");
+  }
 });
 // ======================== CrearProductos ===========================
 server.post("/products", middlewares.isAdmin, (req, res) => {

@@ -64,8 +64,15 @@ server.get("/products", async (req, res) => {
   res.status(200).send(productsArray);
 });
 server.put("/product", async (req, res) => {
-  const productoId = ({ productId } = req.body);
-  let update = await productsHandler.updateProduct(productoId.productId);
+  const productoUpdate = ({ 
+    Product_Id,
+    Product_name,
+    Product_price,
+    Photo 
+  } = req.body);
+  console.log(productoUpdate);
+  let update = await productsHandler.updateProduct(productoUpdate);
+  console.log("me ejecute");
   res.status(200).send(update);
 });
 

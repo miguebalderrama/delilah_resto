@@ -63,16 +63,22 @@ server.get("/products", async (req, res) => {
   let productsArray = await productsHandler.getProducts();
   res.status(200).send(productsArray);
 });
+server.put("/product", async (req, res) => {
+  const productoId = ({ productId } = req.body);
+  let update = await productsHandler.updateProduct(productoId.productId);
+  res.status(200).send(update);
+});
+
 server.delete("/product", middlewares.isAdmin, async (req, res) => {
   const productoId = ({ productId } = req.body);
   let respuesta = await productsHandler.deleteProduct(productoId.productId);
   if (respuesta[0].affectedRows) {
-    res.status(200).send("Elemento borrado satisfactoriamente");
+    res.status(200).send("Se ha borrado el registro satisfactoriamente");
   } else {
-    res.status(200).send("No se encontro elemento para borrar");
+    res.status(200).send("No se ha borrado ninugun registro");
   }
 });
-// ======================== CrearProductos ===========================
+
 server.post("/products", middlewares.isAdmin, (req, res) => {
   const product = ({ nombre, price, photo } = req.body);
   sequelize
@@ -109,13 +115,7 @@ server.post("/products", middlewares.isAdmin, (req, res) => {
       });
     });
 });
-server.use((err, req, res, next) => {
-  if (err) {
-    console.error(err);
-    res.status(500).send(err);
-  }
-  next();
-});
+
 //////////////Orders /////////////////////////////////////
 
 server.post("/orders", middlewares.isAdmin, async (req, res) => {
@@ -128,8 +128,11 @@ server.post("/orders", middlewares.isAdmin, async (req, res) => {
   res.status(200).send(order);
 });
 
-//server.get("/orders", middlewares.isAdmin ,async (req, res) => {
-// let ordersArray= await ordersHandler.getOrders();
-// res.status(200).send(ordersArray);
-
-//});
+////////////Manejo global de errores////////////////////
+server.use((err, req, res, next) => {
+  if (err) {
+    console.error(err);
+    res.status(500).send(err);
+  }
+  next();
+});

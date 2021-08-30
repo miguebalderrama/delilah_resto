@@ -1,3 +1,4 @@
+const { UPDATE } = require("sequelize/types/lib/query-types");
 const sequelize = require("../conexionBD.js");
 
 async function getProducts() {
@@ -5,6 +6,11 @@ async function getProducts() {
     type: sequelize.QueryTypes.SELECT,
   });
   return productsArray;
+}
+
+async function updateProduct(productId){
+ 
+
 }
 
 async function deleteProduct(productId) {

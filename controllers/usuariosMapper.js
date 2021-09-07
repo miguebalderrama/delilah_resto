@@ -23,7 +23,7 @@ function obtenerUserId(req,res) {
     res.status(401).send({ error: "Token invalido", TipoDeError: `${err}` });
   }
   if (decoded.usuario) {  
-    return decoded.usuario;
+    return 1//decoded.usuario;
   } else {
     res.status(401).send({ error: "Usuario no autorizado" });
     return;

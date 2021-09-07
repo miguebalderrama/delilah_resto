@@ -19,18 +19,8 @@ server.listen(3000, () => {
 //////////////// Users Routes////////////////////////////////
 server.post("/registro", async (req, res) => {
   console.log(req.body);
-  const user = ({
-    username,
-    password,
-    nombre,
-    apellido,
-    email,
-    telefono,
-    direccion,
-  } = req.body);
-  console.log(
-    `${username} - ${nombre} - ${apellido} - ${email} - ${telefono} - ${direccion}`
-  );
+  const user = ({username,password,nombre,apellido,email,telefono,direccion,} = req.body);
+  console.log(`${username} - ${nombre} - ${apellido} - ${email} - ${telefono} - ${direccion}`);
   usuariosHandler.registrarUsuario(user);
   res.status(201).send({ message: "Usuario creado satisfactoriamente" });
 });
@@ -47,10 +37,7 @@ server.delete("/usuario", middlewares.isAdmin, async (req, res) => {
 
 //=================== Endpoint Login===========================================
 server.post("/login", async (req, res) => {
-  let token = await usuariosMapper.validarUsuario(
-    req.body.username,
-    req.body.password
-  );
+  let token = await usuariosMapper.validarUsuario(req.body.username,req.body.password);
   if (token) {
     res.status(200).send({ message: "Bienvenido usuario", token: token });
   } else {
@@ -64,12 +51,7 @@ server.get("/products", async (req, res) => {
   res.status(200).send(productsArray);
 });
 server.put("/product", async (req, res) => {
-  const productoUpdate = ({ 
-    Product_Id,
-    Product_name,
-    Product_price,
-    Photo 
-  } = req.body);
+  const productoUpdate = ({ Product_Id,Product_name,Product_price,Photo } = req.body);
   console.log(productoUpdate);
   let update = await productsHandler.updateProduct(productoUpdate);
   console.log("me ejecute");
@@ -125,14 +107,12 @@ server.post("/products", middlewares.isAdmin, (req, res) => {
 
 //////////////Orders /////////////////////////////////////
 
-server.post("/orders", middlewares.isAdmin, async (req, res) => {
+server.post("/order", middlewares.isAdmin, async (req, res) => {
   console.log(req.body);
   let userId = usuariosMapper.obtenerUserId(req, res);
-  const order = ({ username, products, payment_method } = req.body);
-  console.log(`${username} - ${products}- ${payment_method}`);
-  console.log(userId);
-  // let ordersArray= await ordersHandler.postOrder();
-  res.status(200).send(order);
+  const orderhalf = ({ products, payment_method,amount, description } = req.body);
+  ordersHandler.createOrder(userId,orderhalf);
+  res.status(200).send("orden creada");
 });
 
 ////////////Manejo global de errores////////////////////

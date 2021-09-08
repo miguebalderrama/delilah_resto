@@ -1,7 +1,7 @@
 const sequelize = require('../conexionBD.js');
 
 async function registrarUsuario(usuario) {
-    await sequelize.query("INSERT INTO users VALUES (NULL, :username, :password, :firstname, :lastname, :email, :phone, :adress, 0 )", {
+    let nuevousuario=await sequelize.query("INSERT INTO users VALUES (NULL, :username, :password, :firstname, :lastname, :email, :phone, :adress, 0 )", {
             replacements: {
                 username: usuario.username,
                 password: usuario.password,
@@ -13,6 +13,7 @@ async function registrarUsuario(usuario) {
             },
             type: sequelize.QueryTypes.INSERT
     });
+    
 }
 
 async function autenticarUsuario(username, password) {

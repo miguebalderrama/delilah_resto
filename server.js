@@ -21,8 +21,8 @@ server.post("/registro", async (req, res) => {
   console.log(req.body);
   const user = ({username,password,nombre,apellido,email,telefono,direccion,} = req.body);
   console.log(`${username} - ${nombre} - ${apellido} - ${email} - ${telefono} - ${direccion}`);
-  usuariosHandler.registrarUsuario(user);
-  res.status(201).send({ message: "Usuario creado satisfactoriamente" });
+   usuariosHandler.registrarUsuario(user);
+  res.status(201).send({message:"usuario creado satisfactoriamente"});
 });
 
 server.get("/usuarios", middlewares.isAdmin, async (req, res) => {
@@ -110,9 +110,10 @@ server.post("/products", middlewares.isAdmin, (req, res) => {
 server.post("/order", middlewares.isAdmin, async (req, res) => {
   console.log(req.body);
   let userId = usuariosMapper.obtenerUserId(req, res);
-  const orderhalf = ({ products, payment_method,amount, description } = req.body);
-  ordersHandler.createOrder(userId,orderhalf);
-  res.status(200).send("orden creada");
+  const orderhalf = ({ products, payment_method,amount, description } = req.body);  
+  let orderNew=await ordersHandler.createOrder(userId,orderhalf);
+ let orderPedido= await ordersHandler.createOrderPedido(orderNew[0],orderhalf.products); 
+  res.status(200).send({message:"pedido realizado"});
 });
 
 ////////////Manejo global de errores////////////////////

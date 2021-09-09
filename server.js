@@ -109,11 +109,23 @@ server.post("/products", middlewares.isAdmin, (req, res) => {
 
 server.post("/order", middlewares.isAdmin, async (req, res) => {
   console.log(req.body);
-  let userId = usuariosMapper.obtenerUserId(req, res);
+  let userId = await usuariosMapper.obtenerUserId(req, res);
   const orderhalf = ({ products, payment_method,amount, description } = req.body);  
   let orderNew=await ordersHandler.createOrder(userId,orderhalf);
  let orderPedido= await ordersHandler.createOrderPedido(orderNew[0],orderhalf.products); 
   res.status(200).send({message:"pedido realizado"});
+});
+
+server.get("/orders",middlewares.whatsRol,async (req , res)=>{
+console.log("el usuario es un:");
+console.log(req.params.rol);
+let rol=req.params.rol;
+let userId = await usuariosMapper.obtenerUserId(req, res);
+console.log("Cual e smi usuario??");
+console.log(userId);
+let respuesta= await ordersHandler.getOrders(rol,userId);
+res.status(200).send(respuesta);
+
 });
 
 ////////////Manejo global de errores////////////////////

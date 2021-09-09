@@ -33,11 +33,20 @@ async function createOrderPedido(orderId,products){
     
 }
 
-async function getOrders(){////aca hay que hacer esta funcion
-    let ordersArray= await sequelize.query('SELECT * FROM users', {
-        type: sequelize.QueryTypes.SELECT
-});
-return ordersArray;
+async function getOrders(rol,userid){////aca hay que hacer esta funcion
+    let user=userid;
+    if (rol) {
+        let ordersArray= await sequelize.query(`SELECT * FROM orders INNER JOIN orders_products ON orders.order_id =orders_products.order_id INNER JOIN products ON orders_products.product_id = products.product_id INNER JOIN users ON orders.user_id = users.User_id`, {
+            type: sequelize.QueryTypes.SELECT
+    });
+    return ordersArray;
+    } else {
+        let ordersArray= await sequelize.query(`SELECT * FROM orders INNER JOIN orders_products ON orders.order_id =orders_products.order_id INNER JOIN products ON orders_products.product_id = products.product_id INNER JOIN users ON orders.user_id = users.User_id WHERE orders.User_id=${user}`, {
+            type: sequelize.QueryTypes.SELECT
+    }); 
+    return ordersArray; 
+    }
+    
 }
 
 module.exports = { getOrders, createOrder,createOrderPedido }

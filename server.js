@@ -128,6 +128,12 @@ res.status(200).send(respuesta);
 
 });
 
+server.put("/order",middlewares.isAdmin,async (req , res)=>{
+const updateOrder = ({orderId,state}=req.body);
+let resultado = await ordersHandler.updateOrder(updateOrder);
+res.status(200).send(resultado);
+}); 
+
 ////////////Manejo global de errores////////////////////
 server.use((err, req, res, next) => {
   if (err) {

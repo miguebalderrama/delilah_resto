@@ -49,4 +49,14 @@ async function getOrders(rol,userid){////aca hay que hacer esta funcion
     
 }
 
-module.exports = { getOrders, createOrder,createOrderPedido }
+async function updateOrder(updateOrder){
+    console.log("esto recibimos");
+    console.log(updateOrder.state);
+    let respuesta = await sequelize.query(`UPDATE orders SET Status = ${updateOrder.state}  WHERE orders.Order_id= ${updateOrder.orderId}`,
+     
+      );
+      return respuesta;
+    
+}
+
+module.exports = { getOrders, createOrder,createOrderPedido,updateOrder }

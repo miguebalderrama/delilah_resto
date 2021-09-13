@@ -59,4 +59,14 @@ async function updateOrder(updateOrder){
     
 }
 
-module.exports = { getOrders, createOrder,createOrderPedido,updateOrder }
+async function deleteOrder(orderId) {
+    try {
+     await sequelize.query(`DELETE FROM orders_products WHERE Order_id = :orderId`, {replacements: {orderId: orderId, },});
+    let respuesta = await sequelize.query(`DELETE FROM orders WHERE Order_id = :orderId`, {replacements: {orderId: orderId, },});
+      return respuesta;
+    } catch (err) {
+      console.log(err); // TypeError: failed to promise
+    }
+  }
+
+module.exports = { getOrders, createOrder,createOrderPedido,updateOrder, deleteOrder }

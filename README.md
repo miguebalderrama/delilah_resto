@@ -1,4 +1,3 @@
-# delilah_resto
 # Backend "Delilah Restó", App de pedidos de comida
 
 Trabajo #3 del curso de Desarrollo Web Full Stack de Acámica.

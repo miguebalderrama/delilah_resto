@@ -30,11 +30,6 @@ server.get("/usuarios", middlewares.isAdmin, async (req, res) => {
   res.status(200).send(usersArray);
 });
 
-server.delete("/usuario", middlewares.isAdmin, async (req, res) => {
-  //let usersArray = await usuariosHandler.getUsuarios();
-  res.status(200).send({ message: "Usuario eliminado satisfactoriamente" });
-});
-
 //=================== Endpoint Login===========================================
 server.post("/login", async (req, res) => {
   let token = await usuariosMapper.validarUsuario(req.body.username,req.body.password);

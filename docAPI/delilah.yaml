@@ -147,7 +147,7 @@ paths:
           description: Pedido eliminado
         '403':
           description: Solo un administrador puede eliminar un pedido
-  /productos:
+  /products:
     get:
       tags:
         - productos
@@ -180,21 +180,15 @@ paths:
           description: Debe ingresar todos los datos requeridos
         '403':
           description: Solo un administrador puede crear nuevos productos
-  '/productos/{id}':
+  
+  /product:
+   
+
     put:
       tags:
         - productos
       summary: Modificar un producto pasando su Id como parámetro
       description: Solo un administrador puede modificar los datos de un producto
-      parameters:
-        - name: id
-          in: path
-          description: 'Se requiere el Id del producto para modificarlo'
-          required: true
-          content: 
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Productos/properties/id'
       requestBody:
         content:
           application/json:
@@ -227,15 +221,6 @@ paths:
         - productos
       summary: Eliminar un producto pasando su Id por parámetro
       description: Solo un administrador puede eliminar un producto
-      parameters:
-        - name: id
-          in: path
-          description: Se debe pasar el Id del producto, por parámetro para poder eliminarlo
-          required: true
-          content: 
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Productos/properties/id'
       responses:
         '200':
           description: Producto eliminado

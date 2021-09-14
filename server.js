@@ -50,7 +50,7 @@ server.get("/products", async (req, res) => {
   let productsArray = await productsHandler.getProducts();
   res.status(200).send(productsArray);
 });
-server.put("/product", async (req, res) => {
+server.put("/product",middlewares.isAdmin, async (req, res) => {
   const productoUpdate = ({ Product_Id,Product_name,Product_price,Photo } = req.body);
   console.log(productoUpdate);
   let update = await productsHandler.updateProduct(productoUpdate);

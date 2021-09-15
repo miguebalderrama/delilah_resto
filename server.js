@@ -129,10 +129,10 @@ let resultado = await ordersHandler.updateOrder(updateOrder);
 res.status(200).send(resultado);
 }); 
 
-server.delete("/order", middlewares.isAdmin, async (req, res) => {
-  const orderId = ( req.body);
+server.delete("/order/:id", middlewares.isAdmin, async (req, res) => {
+  const orderId = req.params.id;
   console.log(orderId);
-  let respuesta = await ordersHandler.deleteOrder(orderId.orderId);
+  let respuesta = await ordersHandler.deleteOrder(orderId);
   if (respuesta[0].affectedRows) {
     res.status(200).send("Se ha borrado la orden satisfactoriamente");
   } else {

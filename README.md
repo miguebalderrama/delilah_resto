@@ -43,11 +43,11 @@ npm install
 - Inicializar los servicios de Apache y MySQL
 - Abrir el panel de control del servicio MySQL
 - Generar una nueva base de datos llamada `delilah_resto` desde el panel de control
-- Abrir el archivo en `/database/queries.sql` y dentro del `panel de control` de la base de datos ejecutar la serie de queries del archivo o importar el mismo.
+- Abrir el archivo en `/database/delilah_resto.sql` y dentro del `panel de control` de la base de datos ejecutar la serie de queries del archivo o importar el mismo.
 
 ### 4 - Iniciando el servidor
 
-Abrir el archivo en `/server/server.js` desde node
+Abrir el archivo en `/server.js` desde node
 
 `node server`
 

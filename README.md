@@ -57,5 +57,7 @@ Testear los endpoints provistos desde postman para poder hacer uso de la API y b
 
 [Colección de Postman](url de postaman..................)
 
-(Asegurarse de seleccionar el entorno de desarrollo `Delilah Restó` para poder acceder a las variables globales)
+(Asegurarse de seleccionar el entorno de desarrollo `Delilah Restó` para poder acceder a las variables globales
+Se puede crear su usuario desde login.
+El usuario admin por defecto es "username": "admin", "password": "123456"
 

@@ -9,8 +9,8 @@ info:
 tags:
   - name: usuarios
     description: Rutas de usuarios
-  - name: pedidos
-    description: Rutas de pedidos
+  - name: ordenes
+    description: Rutas de ordenes
   - name: productos
     description: Rutas de productos
 paths:
@@ -64,10 +64,10 @@ paths:
           description: Debe ingresar todos los datos solicitados
         '409':
           description: Este usuario ya está en uso, por favor modifique su nombre de usuario
-  /pedidos:
+  /orders:
     get:
       tags:
-        - pedidos
+        - ordenes
       summary: Get todo pedidos
       description: >-
         Los usuarios verán sus propios pedidos. El administrador, los de todos los usuarios.
@@ -80,9 +80,10 @@ paths:
                 $ref: '#/components/schemas/Pedidos'
         '500':
           description: "Error interno de Rol/pedidos"
+  /order:
     post:
       tags:
-        - pedidos
+        - ordenes
       summary: Nuevo pedido
       requestBody:
         required: true
@@ -96,21 +97,12 @@ paths:
           description: Pedido creado
         '500':
           description: Error interno
-  '/pedidos/{id}':
+  
     put:
       tags:
-        - pedidos
+        - ordenes
       summary: Modifica el estado del pedido
       description: Solo el administrador puede modificar el estado de un pedido
-      parameters:
-        - name: id
-          in: path
-          description: Id del pedido para modificar su estado
-          required: true
-          content: 
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Pedidos/properties/id'
       requestBody:
         content:
           application/json:
@@ -128,9 +120,10 @@ paths:
           description: Solo un administrador puede modificar el estado del pedido
         '500':
           description: Error interno modificar pedido
+  '/order/{id}':
     delete:
       tags:
-        - pedidos
+        - ordenes
       summary: Eliminar un pedido
       description: Solo un administrador puede eliminar un pedido
       parameters:
@@ -172,7 +165,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Productos'
+              properties:
+                name:
+                  description: Modifica el nombre del producto
+                  type: string
+                price:
+                  description: Modifica el precio del producto
+                  type: string
+                photo:
+                  description: Modifica la imagen del producto
+                  type: string
       responses:
         '201':
           description: Producto creado
@@ -194,21 +196,17 @@ paths:
           application/json:
             schema:
               properties:
-                price:
-                  description: Modifica el precio del producto
-                  type: string
+                
                 name:
                   description: Modifica el nombre del producto
                   type: string
-                stock:
-                  description: Modifica el stock del producto
+                price:
+                  description: Modifica el precio del producto
                   type: string
-                image:
+                photo:
                   description: Modifica la imagen del producto
                   type: string
-                category:
-                  description: Modifica la categoria del producto
-                  type: string
+                
       responses:
         '200':
           description: Producto Modificado
@@ -216,11 +214,21 @@ paths:
           description: Solo un administrador puede modificar un producto
         '500':
           description: Debe ingresar todos los datos para modificar un producto
+  '/product/{id}':
     delete:
       tags:
         - productos
       summary: Eliminar un producto pasando su Id por parámetro
       description: Solo un administrador puede eliminar un producto
+      parameters:
+        - name: id
+          in: path
+          description: 'Id del pedido es requerido como parámetro '
+          required: true
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pedidos/properties/id'
       responses:
         '200':
           description: Producto eliminado
@@ -242,22 +250,22 @@ components:
     Usuarios:
       type: object
       properties:
-        id:
-          type: integer
+        
         username:
-          type: string
-        fullname:
-          type: string
-        email:
-          type: string
-        is_admin:
-          type: boolean
-        phone:
-          type: string
-        address:
           type: string
         password:
           type: string
+        nombre:
+          type: string
+        apellido:
+          type: string
+        email:
+          type: string
+        telefono:
+          type: string
+        direccion:
+          type: string
+        
       xml:
         name: Usuarios
     Pedidos:
@@ -279,14 +287,13 @@ components:
       type: object
       properties:
         id:
-          type: integer
-        product_name:
+         type: integer
+        name:
           type: string
-        stock:
-          type: boolean
-        img_url:
+        price:
           type: string
-        category:
+        photo:
           type: string
+        
       xml:
         name: Productos

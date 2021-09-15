@@ -48,9 +48,8 @@ server.get("/products", async (req, res) => {
 server.put("/product",middlewares.isAdmin, async (req, res) => {
   const productoUpdate = ({ Product_Id,Product_name,Product_price,Photo } = req.body);
   console.log(productoUpdate);
-  let update = await productsHandler.updateProduct(productoUpdate);
-  console.log("me ejecute");
-  res.status(200).send(update);
+  await productsHandler.updateProduct(productoUpdate); 
+  res.status(200).send("Se ha modificado el producto satisfactoriamente");
 });
 
 server.delete("/product/:id", middlewares.isAdmin, async (req, res) => {
@@ -102,7 +101,7 @@ server.post("/products", middlewares.isAdmin, (req, res) => {
 
 //////////////Orders /////////////////////////////////////
 
-server.post("/order", middlewares.isAdmin, async (req, res) => {
+server.post("/order", middlewares.whatsRol, async (req, res) => {
   console.log(req.body);
   let userId = await usuariosMapper.obtenerUserId(req, res);
   const orderhalf = ({ products, payment_method,amount, description } = req.body);  
@@ -126,7 +125,7 @@ res.status(200).send(respuesta);
 server.put("/order",middlewares.isAdmin,async (req , res)=>{
 const updateOrder = ({orderId,state}=req.body);
 let resultado = await ordersHandler.updateOrder(updateOrder);
-res.status(200).send(resultado);
+res.status(200).send("Se ha modificado la orden satisfactoriamente");
 }); 
 
 server.delete("/order/:id", middlewares.isAdmin, async (req, res) => {

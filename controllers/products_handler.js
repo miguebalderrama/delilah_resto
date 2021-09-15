@@ -30,6 +30,7 @@ async function updateProduct(productoUpdate) {
 
 async function deleteProduct(productId) {
   try {
+    await sequelize.query(`DELETE FROM orders_products WHERE Product_id = :productId`, {replacements: { productId: productId, },});
     let respuesta = await sequelize.query(
       `DELETE FROM products WHERE Product_id = :productId`,
       {

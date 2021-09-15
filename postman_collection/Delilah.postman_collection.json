@@ -1,0 +1,382 @@
+{
+	"info": {
+		"_postman_id": "d2df1a87-f2e4-45dc-89f2-f49fc5beef1f",
+		"name": "Delilah",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:3000/registro",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    \r\n    {        \r\n        \r\n        \"username\" : \"Mathew\",\r\n        \"password\" : \"23456\",\r\n        \"nombre\" : \"Matias\",\r\n        \"apellido\" : \"Pozniakova\",\r\n        \"email\" : \"matias@gmail.com\",\r\n        \"telefono\" :\"+7485916\",\r\n        \"direccion\" : \"Av Siempre Viva 1234, Springfield\"\r\n        \r\n     }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/registro",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"registro"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();\r",
+							"pm.globals.set('token',jsonData.token)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{        \r\n        \"username\" : \"admin\",\r\n        \"password\" : \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/usuarios",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/products",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "user_id",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{        \r\n        \"nombre\" : \"Varenikis\",\r\n        \"price\" : \"850\",\r\n        \"photo\" : \"https://www.hola.com/imagenes/cocina/recetas/20200221161232/sushi-maki-de-atun/0-787-34/sushi-maki-de-atun-m.jpg\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/product",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "user_id",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{       \r\n        \"productId\" : 2, \r\n        \"nombre\" : \"Taco Mex Big\",\r\n        \"price\" : \"1340\",\r\n        \"photo\" : \"https://www.hola.com/imagenes/cocina/recetas/20200221161232/sushi-maki-de-atun/0-787-34/sushi-maki-de-atun-m.jpg\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/product",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/product/:id",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "user_id",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/product/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"product",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": null
+						}
+					]
+				},
+				"description": "Borrar un producto"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/product",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productId\": \"5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"products"
+					]
+				},
+				"description": "Borrar un producto"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/orders",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "user_id",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{        \r\n        \"products\" : [{\r\n            \"product_id\":2,\r\n            \"quantity\":2\r\n        },\r\n        {\r\n            \"product_id\":1,\r\n            \"quantity\":4\r\n        }] ,\r\n        \"payment_method\": \"efectivo\"\r\n        \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/order",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"order"
+					]
+				},
+				"description": "creacion de una orden"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/orders",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "user_id",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{        \r\n        \"products\" : [{\r\n            \"product_id\":2,\r\n            \"quantity\":2\r\n        },\r\n        {\r\n            \"product_id\":1,\r\n            \"quantity\":4\r\n        }] ,\r\n        \"payment_method\": \"efectivo\"\r\n        \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"orders"
+					]
+				},
+				"description": "creacion de una orden"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/order",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "user_id",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{            \r\n \"orderId\":29,\r\n \"state\": \"confirmado\" \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/order",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"order"
+					]
+				},
+				"description": "creacion de una orden"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/order/:id",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "user_id",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/order/23",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"order",
+						"23"
+					]
+				},
+				"description": "creacion de una orden"
+			},
+			"response": []
+		}
+	]
+}

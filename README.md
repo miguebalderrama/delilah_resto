@@ -61,4 +61,5 @@ Testear los endpoints provistos desde postman para poder hacer uso de la API y b
 
 Se puede crear su usuario desde login.
 El usuario admin por defecto es "username": "admin", "password": "123456"
+Un usario sin permisos puede ser "username": "Pablo", "password": "23456"
 

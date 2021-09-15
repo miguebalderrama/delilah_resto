@@ -53,9 +53,9 @@ server.put("/product",middlewares.isAdmin, async (req, res) => {
   res.status(200).send(update);
 });
 
-server.delete("/product", middlewares.isAdmin, async (req, res) => {
-  const productoId = ({ productId } = req.body);
-  let respuesta = await productsHandler.deleteProduct(productoId.productId);
+server.delete("/product/:id", middlewares.isAdmin, async (req, res) => {
+  const productoId =  req.params.id;;
+  let respuesta = await productsHandler.deleteProduct(productoId);
   if (respuesta[0].affectedRows) {
     res.status(200).send("Se ha borrado el registro satisfactoriamente");
   } else {
